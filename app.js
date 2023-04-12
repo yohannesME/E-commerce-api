@@ -10,10 +10,12 @@ const app = express();
 //the rest of the package
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 //routes
 const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
+const productRouter = require("./routes/productRoutes");
 
 //database
 const connectDB = require("./db/connect");
@@ -30,6 +32,10 @@ app.use(express.json());
 //if cookies is signed it will be available in req.signedCookies
 app.use(cookieParser(process.env.JWT_SECRET));
 
+//file upload
+app.use(express.static("./public/uploads"));
+app.use(fileUpload());
+
 //routes
 app.get("/api", (req, res) => {
   res.send("hello word");
@@ -37,6 +43,7 @@ app.get("/api", (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
