@@ -24,7 +24,7 @@ router
 router
   .route("/:id")
   .get(getSingleProduct)
-  .post(authenticateUser, authorizePermissions("admin"), updateProduct)
+  .patch(authenticateUser, authorizePermissions("admin"), updateProduct)
   .delete(authenticateUser, authorizePermissions("admin"), deleteProduct);
 
 module.exports = router;
